@@ -12,8 +12,7 @@ class TimersDashboard extends React.Component {
     loadTimersFromServer = () => {
         client.getTimers((serverTimers) => (
             this.setState({ timers: serverTimers })
-        )
-        );
+        ));
     };
     handleStartClick = (timerId) => {
         this.startTimer(timerId);
@@ -36,6 +35,8 @@ class TimersDashboard extends React.Component {
         this.setState({
             timers: this.state.timers.concat(t),
         });
+
+        client.createTimer(t);
     };
     startTimer = (timerId) => {
         const now = Date.now();
@@ -91,12 +92,16 @@ class TimersDashboard extends React.Component {
                 }
             }),
         });
+
+        client.updateTimer(attrs);
     };
 
     deleteTimer = (id) => {
         this.setState({
             timers: this.state.timers.filter(timer => timer.id !== id)
         });
+
+        client.deleteTimer({ id: timerId });
     };
 
     render() {
